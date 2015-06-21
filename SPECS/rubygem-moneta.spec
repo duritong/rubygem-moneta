@@ -1,21 +1,19 @@
 # Generated from moneta-0.8.0.gem by gem2rpm -*- rpm-spec -*-
-%global gemdir %(ruby -rubygems -e 'puts Gem::dir' 2>/dev/null)
-%global gemname moneta
-%global geminstdir %{gemdir}/gems/%{gemname}-%{version}
+%global gem_name moneta
 
 Summary: A unified interface to key/value stores
-Name: rubygem-%{gemname}
+Name: rubygem-%{gem_name}
 Version: 0.8.0
 Release: 1%{?dist}
 Group: Development/Languages
 License: MIT
 URL: http://github.com/minad/moneta
-Source0: http://gems.rubyforge.org/gems/%{gemname}-%{version}.gem
+Source0: http://gems.rubyforge.org/gems/%{gem_name}-%{version}.gem
 Requires: ruby(rubygems)
 BuildRequires: ruby(rubygems)
 BuildRequires: rubygems-devel
 BuildArch: noarch
-Provides: rubygem(%{gemname}) = %{version}
+Provides: rubygem(%{gem_name}) = %{version}
 
 %description
 Moneta provides a standard interface for interacting with various kinds of
@@ -32,44 +30,38 @@ This package contains documentation for %{name}.
 
 %prep
 %setup -q -c -T
-
-mkdir -p .%{gemdir}
-gem install -V \
-  --local \
-  --install-dir $(pwd)/%{gemdir} \
-  --force --rdoc \
-  %{SOURCE0}
+%gem_install -n %{SOURCE0}
 
 %build
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}%{gemdir}
-cp -a .%{gemdir}/* %{buildroot}%{gemdir}/
-rm -rf %{buildroot}/%{geminstdir}/.[a-z]*
+mkdir -p %{buildroot}%{gem_dir}
+cp -a .%{gem_dir}/* %{buildroot}%{gem_dir}/
+rm -rf %{buildroot}%{gem_instdir}/.[a-z]*
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc %{geminstdir}/README.md
-%doc %{geminstdir}/LICENSE
-%doc %{geminstdir}/spec
-%doc %{geminstdir}/script
-%doc %{geminstdir}/Gemfile
-%dir %{geminstdir}
-%{geminstdir}/lib
-%{geminstdir}/%{gemname}.gemspec
-%{gemdir}/cache/%{gemname}-%{version}.gem
-%{gemdir}/specifications/%{gemname}-%{version}.gemspec
+%{gem_libdir}
+%exclude %{gem_cache}
+%{gem_spec}
+%doc %{gem_instdir}/README.md
+%doc %{gem_instdir}/LICENSE
+%doc %{gem_instdir}/spec
+%doc %{gem_instdir}/script
+%doc %{gem_instdir}/Gemfile
+%dir %{gem_instdir}
 
 %files doc
 %defattr(-,root,root,-)
-%doc %{geminstdir}/SPEC.md
-%doc %{geminstdir}/CONTRIBUTORS
-%doc %{geminstdir}/CHANGES
-%{gemdir}/doc/%{gemname}-%{version}
+%doc %{gem_docdir}
+%doc %{gem_instdir}/SPEC.md
+%doc %{gem_instdir}/CONTRIBUTORS
+%doc %{gem_instdir}/CHANGES
+%{gem_instdir}/%{gem_name}.gemspec
 
 %changelog
 * Sun Jun 07 2015 mh <mh@immerda.ch> - 0.8.0-1
